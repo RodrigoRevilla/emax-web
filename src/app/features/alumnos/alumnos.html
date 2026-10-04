@@ -1,0 +1,53 @@
+<main class="al">
+  <header class="al-head">
+    <a class="al-back" href="/">← Volver al inicio</a>
+    <p class="eyebrow">Material para alumnos</p>
+    <h1 class="al-title">Tu material de estudio</h1>
+    <p class="al-lede">
+      Escribe la clave que te dio tu maestro o recepción para ver y descargar el
+      material de tu grupo.
+    </p>
+  </header>
+
+  @if (!acceso()) {
+    <section class="al-card">
+      <label class="al-lbl">Clave de tu grupo</label>
+      <div class="al-fila">
+        <input type="text" class="al-input" [ngModel]="clave()" (ngModelChange)="setClave($event)"
+               (keyup.enter)="entrar()" placeholder="Ej. KIDZ2026" autocomplete="off">
+        <button class="al-btn" (click)="entrar()" [disabled]="!clave() || cargando()">
+          {{ cargando() ? 'Entrando…' : 'Entrar' }}
+        </button>
+      </div>
+      @if (error(); as e) { <p class="al-error">{{ e }}</p> }
+      <p class="al-ayuda">¿No tienes clave? Pídela en recepción o a tu maestro.</p>
+    </section>
+  } @else {
+    <section class="al-material">
+      <div class="al-mat-top">
+        <span class="al-mat-count">{{ materiales().length }} material(es) disponibles</span>
+        <button class="al-salir" (click)="salir()">Usar otra clave</button>
+      </div>
+
+      @if (materiales().length === 0) {
+        <p class="al-vacio">Aún no hay material publicado para tu grupo. Vuelve más tarde.</p>
+      } @else {
+        <ul class="al-lista">
+          @for (m of materiales(); track m.id) {
+            <li class="al-item">
+              <span class="al-ico">{{ icono(m.tipo) }}</span>
+              <div class="al-info">
+                <span class="al-mt">{{ m.titulo }}</span>
+                @if (m.descripcion) { <span class="al-md">{{ m.descripcion }}</span> }
+                @if (m.peso) { <span class="al-mp">{{ m.peso }}</span> }
+              </div>
+              <button class="al-abrir" (click)="abrir(m)">
+                {{ m.tipo === 'enlace' ? 'Abrir' : 'Descargar' }}
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</main>

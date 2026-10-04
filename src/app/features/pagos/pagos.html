@@ -1,0 +1,171 @@
+<main class="pagos">
+  @if (comprobante(); as comp) {
+    <section class="pg-ticket">
+      <div class="tk-check">✓</div>
+      <h2>Pago confirmado</h2>
+      <p class="tk-folio">Folio {{ comp.folio }}</p>
+
+      <dl class="tk-datos">
+        <dt>Alumno</dt><dd>{{ comp.alumno }}</dd>
+        <dt>Sucursal</dt><dd>{{ comp.sucursal }}</dd>
+        <dt>Fecha</dt><dd>{{ comp.fecha }}</dd>
+      </dl>
+
+      <ul class="tk-lineas">
+        @for (c of comp.conceptos; track c.label) {
+          <li><span>{{ c.label }}</span><span>{{ c.precio | currency:'MXN':'symbol-narrow' }}</span></li>
+        }
+        @if (comp.descuento > 0) {
+          <li class="tk-desc"><span>Descuento pronto pago</span><span>−{{ comp.descuento | currency:'MXN':'symbol-narrow' }}</span></li>
+        }
+      </ul>
+
+      <p class="tk-total">Total pagado <strong>{{ comp.total | currency:'MXN':'symbol-narrow' }}</strong></p>
+      <p class="tk-nota">
+        <strong>Guarda este folio.</strong> Lo necesitarás para el descuento de pronto pago en tu 2ª colegiatura. Presenta tu comprobante en recepción para completar tu registro.
+      </p>
+      <div class="tk-acciones">
+        <button class="tk-btn tk-descargar" (click)="descargarComprobante()">Descargar comprobante (PDF)</button>
+        <div class="tk-fila">
+          <button class="tk-btn tk-wa" (click)="enviarWhatsApp()">Enviar por WhatsApp</button>
+          <button class="tk-btn tk-otro" (click)="nuevoPago()">Realizar otro pago</button>
+        </div>
+        <a class="tk-btn tk-inicio" href="/">Volver al inicio</a>
+      </div>
+    </section>
+  } @else {
+  <header class="pg-head">
+    <a class="pg-back" href="/">← Volver al inicio</a>
+    <p class="eyebrow">Pagos en línea</p>
+    <h1 class="pg-title">Realiza tu pago</h1>
+    <p class="pg-lede">
+      Paga tu inscripción, colegiatura o material de forma segura con tarjeta o
+      cuenta PayPal. Recibirás tu comprobante al terminar.
+    </p>
+  </header>
+
+    <div class="pg-grid">
+      <section class="pg-form">
+        <h2 class="pg-h2"><span class="pg-num">1</span> Tus datos</h2>
+        <div class="campos">
+          <label>
+            Nombre completo del alumno
+            <input type="text" [ngModel]="alumno().nombre" name="nombre"
+                   (ngModelChange)="alumno.set({ ...alumno(), nombre: $event })"
+                   placeholder="Como aparece en su CURP">
+          </label>
+          <label>
+            Correo electrónico
+            <input type="email" [ngModel]="alumno().email" name="email"
+                   (ngModelChange)="alumno.set({ ...alumno(), email: $event })"
+                   placeholder="para enviarte el comprobante">
+          </label>
+          <label>
+            Teléfono
+            <input type="tel" inputmode="numeric" maxlength="10" [ngModel]="alumno().telefono" name="telefono"
+                   (ngModelChange)="alumno.set({ ...alumno(), telefono: soloDigitos($event) })"
+                   placeholder="10 dígitos">
+          </label>
+          <label>
+            Sucursal
+            <select [ngModel]="alumno().sucursal" name="sucursal"
+                    (ngModelChange)="alumno.set({ ...alumno(), sucursal: $event })">
+              <option value="">Selecciona una sucursal</option>
+              @for (s of sucursales; track s) { <option [value]="s">{{ s }}</option> }
+            </select>
+          </label>
+        </div>
+
+        <h2 class="pg-h2"><span class="pg-num">2</span> ¿Qué vas a pagar?</h2>
+
+        @if (cargando()) {
+          <p class="pg-cargando">Cargando conceptos…</p>
+        } @else {
+          @for (grupo of ['inscripcion', 'colegiatura', 'material', 'examen']; track grupo) {
+            @if (porGrupo(grupo).length > 0) {
+              <div class="grupo">
+                <h3 class="grupo-tit">{{ grupo | titlecase }}</h3>
+                @for (c of porGrupo(grupo); track c.id) {
+                  <button class="concepto" [class.on]="seleccion().has(c.id)" (click)="toggle(c.id)">
+                    <span class="cc-check"></span>
+                    <span class="cc-texto">
+                      <span class="cc-label">{{ c.label }}</span>
+                      <span class="cc-detalle">{{ c.detalle }}</span>
+                    </span>
+                    <span class="cc-precio">{{ c.precio | currency:'MXN':'symbol-narrow' }}</span>
+                  </button>
+                }
+              </div>
+            }
+          }
+
+          <button class="pronto" [class.on]="prontoPago()" [class.deshabilitado]="!prontoPagoDisponible()"
+                  [disabled]="!prontoPagoDisponible()" (click)="togglePronto()">
+            <span class="cc-check"></span>
+            <span class="cc-texto">
+              <span class="cc-label">Aplicar descuento de pronto pago</span>
+              @if (prontoPagoDisponible()) {
+                <span class="cc-detalle">−$150 en colegiatura. Estás dentro de la semana de descuento.</span>
+              } @else {
+                <span class="cc-detalle">Disponible solo durante la semana de descuento del horario de tu colegiatura.</span>
+              }
+            </span>
+          </button>
+
+          @if (prontoPago() && prontoPagoDisponible()) {
+            <div class="folio-box">
+              <label class="folio-lbl">Folio de tu pago anterior</label>
+              <p class="folio-ayuda">El descuento aplica a partir de tu 2ª colegiatura. Escribe el folio de un pago anterior (aparece en tu comprobante, ej. EMAX-XXXXXXXX).</p>
+              <div class="folio-fila">
+                <input type="text" class="folio-input" [ngModel]="folioAnterior()"
+                       (ngModelChange)="setFolio($event)" (blur)="verificarFolio()"
+                       placeholder="EMAX-XXXXXXXX">
+                <button type="button" class="folio-btn" (click)="verificarFolio()" [disabled]="!folioAnterior() || verificandoFolio()">
+                  {{ verificandoFolio() ? 'Verificando…' : 'Verificar' }}
+                </button>
+              </div>
+              @if (folioValido() === true) {
+                <p class="folio-ok">✓ Folio válido, se aplicó el descuento.</p>
+              } @else if (folioValido() === false) {
+                <p class="folio-mal">No encontramos un pago anterior con ese folio. Se cobrará precio normal (recepción puede validarlo).</p>
+              }
+            </div>
+          }
+        }
+      </section>
+
+      <aside class="pg-resumen">
+        <h2 class="pg-h2"><span class="pg-num">3</span> Resumen</h2>
+
+        @if (elegidos().length === 0) {
+          <p class="rs-vacio">Aún no has elegido ningún concepto.</p>
+        } @else {
+          <ul class="rs-lineas">
+            @for (c of elegidos(); track c.id) {
+              <li><span>{{ c.label }}</span><span>{{ c.precio | currency:'MXN':'symbol-narrow' }}</span></li>
+            }
+            @if (descuento() > 0) {
+              <li class="rs-desc"><span>Pronto pago</span><span>−{{ descuento() | currency:'MXN':'symbol-narrow' }}</span></li>
+            }
+          </ul>
+        }
+
+        <p class="rs-total">
+          <span>Total</span>
+          <strong>{{ total() | currency:'MXN':'symbol-narrow' }} MXN</strong>
+        </p>
+
+        @if (error(); as e) { <p class="rs-error">{{ e }}</p> }
+        @if (procesando()) { <p class="rs-proc">Procesando pago…</p> }
+
+        <div class="rs-paypal" #paypalBox [class.bloqueado]="!formValido()"></div>
+
+        @if (!formValido()) {
+          <p class="rs-ayuda">Completa tus datos y elige un concepto para habilitar el pago.</p>
+        }
+
+        <p class="rs-seguro">🔒 Pago procesado por PayPal. e.Max no almacena los datos de tu tarjeta.</p>
+      </aside>
+    </div>
+  }
+</main>

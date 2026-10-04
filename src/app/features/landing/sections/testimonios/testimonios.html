@@ -1,0 +1,25 @@
+<section id="testimonios" appReveal class="section testi">
+  <p class="eyebrow">{{ data().eyebrow }}</p>
+  <h2 class="h2">{{ data().title }}</h2>
+
+  <div class="testi-wrapper" (mouseenter)="stopAutoplay()" (mouseleave)="startAutoplay()"
+       (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+    <button class="testi-arrow" (click)="prev()" aria-label="Anterior">‹</button>
+
+    <blockquote class="testi-card">
+      <p class="testi-quote">“{{ current().quote }}”</p>
+      <footer>
+        <span class="testi-author">{{ current().author }}</span>
+        <span class="testi-meta">{{ current().meta }}</span>
+      </footer>
+    </blockquote>
+
+    <button class="testi-arrow" (click)="next()" aria-label="Siguiente">›</button>
+  </div>
+
+  <div class="testi-dots">
+    @for (t of data().items; track $index) {
+      <button class="testi-dot" [class.active]="index() === $index" (click)="goTo($index)"></button>
+    }
+  </div>
+</section>

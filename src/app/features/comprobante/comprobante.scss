@@ -1,0 +1,30 @@
+.cmp { min-height: 100vh; padding: clamp(32px, 6vw, 72px) var(--pad-x); background: var(--bone-warm); }
+.cmp-head { max-width: 640px; margin: 0 auto 28px; }
+.cmp-back { font-size: 14px; color: rgba(11, 11, 18, 0.6); }
+.cmp-back:hover { color: var(--gold); }
+.cmp-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 5vw, 42px); margin: 10px 0 12px; }
+.cmp-lede { color: rgba(11, 11, 18, 0.7); line-height: 1.6; }
+
+.cmp-buscar { max-width: 520px; margin: 0 auto; background: #fff; border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-sm); }
+.cmp-lbl { font-weight: 700; font-size: 0.95rem; }
+.cmp-fila { display: flex; gap: 8px; margin-top: 8px; }
+.cmp-input { flex: 1; padding: 12px 14px; border: 1px solid rgba(11,11,18,0.16); border-radius: 10px; font: inherit; text-transform: uppercase; }
+.cmp-input:focus { outline: 2px solid var(--gold); border-color: transparent; }
+.cmp-btn { padding: 12px 22px; border: none; border-radius: 10px; background: var(--navy, #0b0b12); color: #fff; font-weight: 700; cursor: pointer; }
+.cmp-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.cmp-error { margin-top: 14px; padding: 10px 14px; border-radius: 10px; background: rgba(227, 6, 19, 0.08); color: var(--red, #c0392b); font-size: 13px; }
+
+.cmp-ticket { max-width: 520px; margin: 0 auto; padding: 40px; text-align: center; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-md); }
+.tk-check { display: grid; place-items: center; width: 62px; height: 62px; margin: 0 auto 18px; border-radius: 50%; background: var(--wa, #1a8a4a); color: #fff; font-size: 32px; }
+.cmp-ticket h2 { font-family: var(--font-display); font-size: 28px; }
+.tk-folio { font-family: var(--font-mono); font-size: 14px; color: var(--gold); margin-top: 6px; }
+.tk-datos { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin: 24px 0; text-align: left; font-size: 14px; }
+.tk-datos dt { font-weight: 600; color: rgba(11, 11, 18, 0.55); }
+.tk-lineas { list-style: none; display: grid; gap: 8px; text-align: left; padding-top: 16px; border-top: 1px solid rgba(11, 11, 18, 0.1); }
+.tk-lineas li { display: flex; justify-content: space-between; font-size: 14px; }
+.tk-desc { color: var(--gold); }
+.tk-total { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(11, 11, 18, 0.1); strong { font-family: var(--font-display); font-size: 24px; } }
+.tk-nota { font-size: 13px; color: rgba(11, 11, 18, 0.6); margin-top: 18px; line-height: 1.5; }
+.tk-acciones { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 22px; }
+.tk-descargar { padding: 12px 22px; border: none; border-radius: 999px; background: #d4a017; color: #1a1a1a; font-weight: 700; cursor: pointer; }
+.tk-otro { padding: 12px 22px; border: 1px solid #ddd; border-radius: 999px; background: #fff; cursor: pointer; }

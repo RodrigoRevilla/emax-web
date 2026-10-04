@@ -1,0 +1,97 @@
+<div class="mat">
+  <header class="mat-head">
+    <div>
+      <h1 class="mat-titulo">Material digital</h1>
+      <p class="mat-sub">
+        @if (esAdmin()) { Sube y organiza el material por curso y nivel. }
+        @else { Consulta y descarga el material de tus grupos. }
+      </p>
+    </div>
+  </header>
+
+  <div class="mat-grid">
+    <aside class="arbol">
+      @for (curso of cursos; track curso.id) {
+        <div class="arbol-curso">
+          <span class="ac-tit">{{ curso.bandera }} {{ curso.nombre }}</span>
+          @for (nivel of curso.niveles; track nivel.id) {
+            <button class="ac-nivel" [class.on]="nivelActivo() === nivel.id"
+                    (click)="seleccionarNivel(nivel.id)">
+              {{ nivel.nombre }}
+            </button>
+          }
+        </div>
+      }
+    </aside>
+
+    <section class="lista">
+      <div class="lista-top">
+        <h2>{{ materialesNivel().length }} material(es)</h2>
+        @if (esAdmin()) {
+          <button class="btn-add" (click)="mostrarForm.set(!mostrarForm())">
+            {{ mostrarForm() ? 'Cancelar' : '+ Subir material' }}
+          </button>
+        }
+      </div>
+
+      @if (mostrarForm()) {
+        <div class="form-mat">
+          <input type="text" [ngModel]="fTitulo()" (ngModelChange)="fTitulo.set($event)"
+                 placeholder="Título del material">
+          <div class="form-row">
+            <select [ngModel]="fTipo()" (ngModelChange)="fTipo.set($event)">
+              <option value="pdf">📄 PDF</option>
+              <option value="audio">🎧 Audio</option>
+              <option value="video">🎬 Video</option>
+              <option value="enlace">🔗 Enlace</option>
+            </select>
+            <select [ngModel]="fAcceso()" (ngModelChange)="fAcceso.set($event)">
+              <option value="maestros">Solo maestros</option>
+              <option value="clave">Alumnos con clave</option>
+            </select>
+          </div>
+
+          @if (fTipo() === 'enlace') {
+            <input type="text" [ngModel]="fUrl()" (ngModelChange)="fUrl.set($event)"
+                   placeholder="https://youtu.be/... o enlace a Drive/Vimeo">
+            <p class="form-nota">Para videos, lo ideal es un enlace (YouTube no listado, Vimeo o Drive).</p>
+          } @else {
+            <input type="file" (change)="onArchivo($event)">
+            <p class="form-nota">PDF, audio o imágenes. Límite 500 MB por archivo.</p>
+          }
+
+          <button class="btn-guardar" [disabled]="subiendo()" (click)="guardar()">
+            {{ subiendo() ? 'Subiendo…' : 'Guardar material' }}
+          </button>
+        </div>
+      }
+
+      @if (materialesNivel().length === 0) {
+        <p class="vacio">No hay material en este nivel todavía.</p>
+      } @else {
+        <ul class="materiales">
+          @for (m of materialesNivel(); track m.id) {
+            <li class="material">
+              <span class="m-ico">{{ icono(m.tipo) }}</span>
+              <div class="m-info">
+                <span class="m-tit">{{ m.titulo }}</span>
+                <span class="m-meta">
+                  {{ m.tipo === 'enlace' ? 'Enlace' : (m.peso ?? '—') }} · {{ m.creado }}
+                  <span class="m-acceso" [class.clave]="m.acceso === 'clave'">
+                    {{ m.acceso === 'clave' ? '🔑 Con clave' : 'Maestros' }}
+                  </span>
+                </span>
+              </div>
+              <div class="m-acciones">
+                <button class="m-ver" (click)="ver(m)">Ver</button>
+                @if (esAdmin()) {
+                  <button class="m-del" (click)="borrar(m)">Eliminar</button>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+</div>

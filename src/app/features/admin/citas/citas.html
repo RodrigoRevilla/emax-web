@@ -1,0 +1,71 @@
+<div class="cit">
+  <header class="cit-head">
+    <h1 class="cit-titulo">Citas agendadas</h1>
+    <p class="cit-sub">Solicitudes de clase de prueba y visitas desde la página web.</p>
+    @if (hoyCount() > 0) {
+      <p class="cit-hoy"><span class="cit-hoy-dot"></span> Tienes <strong>{{ hoyCount() }}</strong> cita(s) para hoy</p>
+    }
+  </header>
+
+  <div class="cit-filtros">
+    <div class="fil-grupo">
+      <span class="fil-lbl">Cuándo</span>
+      <div class="fil-chips">
+        <button class="chip-fil" [class.on]="rango() === 'hoy'" (click)="setRango('hoy')">Hoy</button>
+        <button class="chip-fil" [class.on]="rango() === 'semana'" (click)="setRango('semana')">Esta semana</button>
+        <button class="chip-fil" [class.on]="rango() === 'todas'" (click)="setRango('todas')">Todas las fechas</button>
+      </div>
+    </div>
+
+    <div class="fil-grupo">
+      <span class="fil-lbl">Estado</span>
+      <div class="fil-chips">
+        <button class="chip-fil" [class.on]="filtro() === 'todas'" (click)="setFiltro('todas')">Todas <span class="chip-n">{{ conteos().todas }}</span></button>
+        @for (e of estados; track e) {
+          <button class="chip-fil" [class.on]="filtro() === e" (click)="setFiltro(e)">{{ etiquetas[e] }} <span class="chip-n">{{ conteos()[e] }}</span></button>
+        }
+      </div>
+    </div>
+
+    <div class="fil-grupo">
+      <span class="fil-lbl">Sucursal</span>
+      <div class="fil-chips">
+        @for (s of sucursales; track s) {
+          <button class="chip-fil chip-sm" [class.on]="filtroSucursal() === s" (click)="setSucursal(s)">{{ s }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (lista().length === 0) {
+    <div class="cit-panel"><p class="panel-vacio">No hay citas en este filtro.</p></div>
+  } @else {
+    <div class="citas-grid">
+      @for (c of lista(); track c.id) {
+        <article class="cita" [attr.data-estado]="c.estado">
+          <div class="cita-top">
+            <span class="cita-nombre">{{ c.nombre }}</span>
+            <span class="cita-estado est-{{ c.estado }}"><span class="e-dot"></span>{{ etiquetas[c.estado] }}</span>
+          </div>
+
+          <div class="cita-cuando">{{ c.fecha }} · {{ c.hora }} h</div>
+
+          <ul class="cita-datos">
+            <li><span class="dl">Sucursal</span><span class="dv">{{ c.sucursal }}</span></li>
+            <li><span class="dl">Curso</span><span class="dv">{{ c.curso }}</span></li>
+            <li><span class="dl">Teléfono</span><span class="dv">{{ c.telefono }}</span></li>
+          </ul>
+
+          @if (c.mensaje) { <p class="cita-msg">"{{ c.mensaje }}"</p> }
+
+          <div class="cita-acciones">
+            <button class="ac ac-conf" (click)="cambiar(c, 'confirmada')">Confirmar</button>
+            <button class="ac ac-atend" (click)="cambiar(c, 'atendida')">Atendida</button>
+            <button class="ac ac-canc" (click)="cambiar(c, 'cancelada')">No asistió</button>
+            <button class="ac ac-del" (click)="eliminar(c)">Eliminar</button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

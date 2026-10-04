@@ -1,0 +1,150 @@
+:host { display: block; }
+
+.cur-head { margin-bottom: 22px; }
+.cur-titulo { font-family: var(--font-display, serif); font-size: 30px; font-weight: 800; margin: 0 0 4px; }
+.cur-sub { color: rgba(11,11,18,.55); margin: 0; }
+
+/* Barra de cursos */
+.cur-toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap; margin-bottom: 24px;
+}
+.cur-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.cur-tab {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 16px; border-radius: 999px;
+  border: 1px solid rgba(11,11,18,.12); background: #fff;
+  font-size: 14px; font-weight: 600; color: rgba(11,11,18,.7);
+  cursor: pointer; transition: all 140ms;
+}
+.cur-tab:hover { border-color: rgba(11,11,18,.28); }
+.cur-tab.on { background: var(--navy, #0b1f3a); color: #fff; border-color: var(--navy, #0b1f3a); }
+.tab-flag { font-size: 15px; }
+
+/* Botones */
+.btn-primario {
+  padding: 10px 18px; border: none; border-radius: 999px;
+  background: var(--navy, #0b1f3a); color: #fff; font-weight: 700; font-size: 14px; cursor: pointer;
+  transition: filter 140ms, transform 140ms; white-space: nowrap;
+}
+.btn-primario:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-primario.gold { background: var(--gold, #d4a017); color: #1a1a1a; }
+.btn-ghost {
+  padding: 8px 14px; border: 1px solid rgba(11,11,18,.14); border-radius: 999px;
+  background: #fff; font-size: 13px; font-weight: 600; color: rgba(11,11,18,.7); cursor: pointer;
+  transition: all 140ms;
+}
+.btn-ghost:hover { border-color: rgba(11,11,18,.3); }
+.btn-ghost.danger { color: #c0392b; }
+.btn-ghost.danger:hover { border-color: #e3a0a0; background: #fdf4f4; }
+
+/* Panel del curso */
+.cur-panel {
+  background: #fff; border: 1px solid #ececec; border-radius: 18px;
+  padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,.03);
+}
+.panel-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap; margin-bottom: 18px;
+}
+.panel-info { display: flex; align-items: center; gap: 10px; }
+.panel-titulo { margin: 0; font-size: 19px; font-weight: 700; }
+.panel-count {
+  display: inline-grid; place-items: center; min-width: 26px; height: 24px; padding: 0 8px;
+  border-radius: 999px; background: #f0eee8; color: rgba(11,11,18,.6);
+  font-size: 13px; font-weight: 700;
+}
+.panel-acc { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Tabla (grid) */
+.tabla { display: flex; flex-direction: column; }
+.t-head, .t-row {
+  display: grid;
+  grid-template-columns: minmax(200px, 2.4fr) 1fr 1fr 1.1fr 92px;
+  gap: 14px; align-items: center;
+}
+.t-head {
+  padding: 0 12px 10px; border-bottom: 2px solid #f0efe9;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: rgba(11,11,18,.4);
+}
+.t-right { text-align: right; }
+.t-center { text-align: center; }
+.t-row {
+  padding: 16px 12px; border-bottom: 1px solid #f4f3ee;
+  border-radius: 10px; transition: background 120ms;
+}
+.t-row:hover { background: #faf9f5; }
+.t-row.inactivo { opacity: .5; }
+
+.t-concepto { display: flex; flex-direction: column; gap: 2px; }
+.td-concepto { font-weight: 600; font-size: 15px; }
+.td-detalle { font-size: 12.5px; color: rgba(11,11,18,.5); }
+.td-precio { font-family: var(--font-mono, ui-monospace, monospace); font-weight: 700; font-size: 15px; }
+
+/* Chips de tipo */
+.chip {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; text-transform: capitalize;
+  background: #f0eee8; color: rgba(11,11,18,.6);
+}
+.chip-colegiatura { background: #eef2fb; color: #2b4a8c; }
+.chip-inscripcion { background: #fff4e0; color: #b26a00; }
+.chip-material    { background: #e9f6ef; color: #1a7a3f; }
+.chip-examen      { background: #f6ecf8; color: #7a3f8c; }
+
+/* Toggle visible/oculto */
+.toggle {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid #e2e0d8; background: #f7f6f2;
+  font-size: 12.5px; font-weight: 600; color: rgba(11,11,18,.55);
+  transition: all 140ms;
+}
+.toggle .dot { width: 7px; height: 7px; border-radius: 50%; background: #bbb; }
+.toggle.on { background: #e9f6ef; border-color: #b7e2c6; color: #1a7a3f; }
+.toggle.on .dot { background: #1a7a3f; }
+.toggle:hover { filter: brightness(.98); }
+
+/* Acciones por fila (iconos) */
+.t-acc { display: flex; gap: 4px; justify-content: flex-end; }
+.icon-btn {
+  width: 34px; height: 34px; border-radius: 9px; border: 1px solid transparent;
+  background: transparent; cursor: pointer; font-size: 15px; line-height: 1;
+  display: grid; place-items: center; transition: all 130ms; opacity: .7;
+}
+.icon-btn:hover { background: #f0efe9; opacity: 1; }
+.icon-btn.danger:hover { background: #fdf1f1; }
+
+/* Vacíos */
+.panel-vacio { color: rgba(11,11,18,.5); padding: 26px 4px; text-align: center; }
+
+/* Editor */
+.editor {
+  background: #fbfaf6; border: 1px solid #ececec; border-radius: 16px;
+  padding: 20px; margin-bottom: 22px;
+}
+.ed-titulo { margin: 0 0 16px; font-size: 16px; }
+.ed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ed-ancho { grid-column: 1 / -1; }
+.ed-grid label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: rgba(11,11,18,.65); }
+.ed-grid input, .ed-grid select {
+  padding: 10px 12px; border: 1px solid #ddd; border-radius: 10px; font: inherit; font-weight: 400;
+  background: #fff;
+}
+.ed-grid input:focus, .ed-grid select:focus { outline: 2px solid var(--gold, #d4a017); border-color: transparent; }
+.ed-acciones { display: flex; gap: 10px; margin-top: 18px; }
+.ed-guardar { padding: 10px 22px; border: none; border-radius: 10px; background: var(--navy, #0b1f3a); color: #fff; font-weight: 700; cursor: pointer; }
+.ed-cancelar { padding: 10px 20px; border: 1px solid #ddd; border-radius: 10px; background: #fff; cursor: pointer; }
+
+@media (max-width: 720px) {
+  .t-head { display: none; }
+  .t-row {
+    grid-template-columns: 1fr auto; gap: 8px 12px; padding: 14px;
+    border: 1px solid #f0efe9; border-radius: 12px; margin-bottom: 10px;
+  }
+  .t-row > .t-right { text-align: left; }
+  .t-row > .t-center { text-align: left; }
+  .t-acc { grid-column: 2; grid-row: 1 / 3; align-items: flex-start; }
+  .ed-grid { grid-template-columns: 1fr; }
+}

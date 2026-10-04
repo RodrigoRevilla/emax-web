@@ -1,0 +1,85 @@
+<div class="sm-wrap">
+  <header class="sm-head">
+    <div>
+      <h1>Semanas de descuento</h1>
+      <p>Define las semanas en que aplica el pronto pago (−$150). El sistema lo activa solo durante estas fechas, según el horario del alumno.</p>
+    </div>
+  </header>
+
+  @if (editando(); as e) {
+    <div class="sm-form">
+      <h2>{{ esNuevo() ? 'Nueva semana' : 'Editar semana' }} · {{ e.horario === 'semana' ? 'Entre semana' : 'Fin de semana' }}</h2>
+      <div class="sm-campos">
+        <label>Horario
+          <select [ngModel]="e.horario" (ngModelChange)="campo('horario', $event)">
+            <option value="semana">Entre semana (L–V)</option>
+            <option value="finde">Fin de semana (Sáb–Dom)</option>
+          </select>
+        </label>
+        <label>Inicio
+          <input type="date" [ngModel]="e.inicio" (ngModelChange)="campo('inicio', $event)">
+        </label>
+        <label>Fin
+          <input type="date" [ngModel]="e.fin" [min]="e.inicio" (ngModelChange)="campo('fin', $event)">
+        </label>
+        <label>Etiqueta (opcional)
+          <input type="text" [ngModel]="e.etiqueta" (ngModelChange)="campo('etiqueta', $event)" placeholder="Ej. Enero">
+        </label>
+      </div>
+      <div class="sm-form-acc">
+        <button class="sm-guardar" [disabled]="!valido()" (click)="guardar()">Guardar</button>
+        <button class="sm-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+  }
+
+  <section class="sm-col">
+    <div class="sm-col-head">
+      <h2>Entre semana (Lunes–Viernes)</h2>
+      <button class="sm-nuevo" (click)="nuevo('semana')">+ Agregar</button>
+    </div>
+    @if (semana().length === 0) {
+      <p class="sm-vacio">Sin semanas registradas.</p>
+    } @else {
+      <ul class="sm-lista">
+        @for (s of semana(); track s.id) {
+          <li [class.inactiva]="!s.activo">
+            <span class="sm-fechas">{{ s.inicio }} → {{ s.fin }}</span>
+            <span class="sm-etq">{{ s.etiqueta }}</span>
+            <span class="sm-estado">{{ s.activo ? 'Activa' : 'Inactiva' }}</span>
+            <span class="sm-acc">
+              <button (click)="editar(s)">Editar</button>
+              <button (click)="toggle(s)">{{ s.activo ? 'Desactivar' : 'Activar' }}</button>
+              <button class="sm-del" (click)="eliminar(s)">Eliminar</button>
+            </span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <section class="sm-col">
+    <div class="sm-col-head">
+      <h2>Fin de semana (Sabatino–Dominical)</h2>
+      <button class="sm-nuevo" (click)="nuevo('finde')">+ Agregar</button>
+    </div>
+    @if (finde().length === 0) {
+      <p class="sm-vacio">Sin semanas registradas.</p>
+    } @else {
+      <ul class="sm-lista">
+        @for (s of finde(); track s.id) {
+          <li [class.inactiva]="!s.activo">
+            <span class="sm-fechas">{{ s.inicio }} → {{ s.fin }}</span>
+            <span class="sm-etq">{{ s.etiqueta }}</span>
+            <span class="sm-estado">{{ s.activo ? 'Activa' : 'Inactiva' }}</span>
+            <span class="sm-acc">
+              <button (click)="editar(s)">Editar</button>
+              <button (click)="toggle(s)">{{ s.activo ? 'Desactivar' : 'Activar' }}</button>
+              <button class="sm-del" (click)="eliminar(s)">Eliminar</button>
+            </span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>

@@ -1,0 +1,29 @@
+<nav id="emax-sticky-nav" [class.visible]="visible()">
+  <a class="nav-logo" href="#top"><img src="assets/logo-emax.png" alt="e.Max"></a>
+
+  <ul class="nav-links">
+    @for (link of nav(); track link.anchor) {
+      <li><a [href]="'#' + link.anchor">{{ link.label }}</a></li>
+    }
+    <li><a href="/alumnos">Material para alumnos</a></li>
+    <li><a href="/comprobante">Consultar comprobante</a></li>
+  </ul>
+
+  <a class="nav-cta" href="#contacto">{{ brandCta() }}</a>
+
+  <button class="nav-burger" [class.abierto]="menuAbierto()" (click)="toggleMenu()"
+          aria-label="Abrir menú" type="button">
+    <span></span><span></span><span></span>
+  </button>
+
+  @if (menuAbierto()) {
+    <div class="nav-movil">
+      @for (link of nav(); track link.anchor) {
+        <a [href]="'#' + link.anchor" (click)="cerrarMenu()">{{ link.label }}</a>
+      }
+      <a href="/alumnos" (click)="cerrarMenu()">Material para alumnos</a>
+      <a href="/comprobante" (click)="cerrarMenu()">Consultar comprobante</a>
+      <a class="nav-movil-cta" href="#contacto" (click)="cerrarMenu()">{{ brandCta() }}</a>
+    </div>
+  }
+</nav>

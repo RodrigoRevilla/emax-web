@@ -1,0 +1,54 @@
+<section id="campus" appReveal class="section campus">
+  <p class="eyebrow">{{ data().eyebrow }}</p>
+  <h2 class="h2">{{ data().title }}</h2>
+  <p class="lede">{{ data().lede }}</p>
+
+  <div class="sede-grid">
+    @for (b of sedes(); track b.id; let i = $index) {
+      <button class="sede" (click)="open(i)">
+        <img [src]="b.cover" [alt]="b.name" loading="lazy">
+        <span class="sede-overlay">
+          <span class="sede-name">{{ b.name }}</span>
+          <span class="sede-count">{{ b.photos.length }} fotos · info →</span>
+        </span>
+      </button>
+    }
+  </div>
+</section>
+
+@if (branch(); as b) {
+  <div class="viewer" (click)="close()">
+    <button class="v-close" (click)="close(); $event.stopPropagation()">✕</button>
+
+    <div class="v-panel" (click)="$event.stopPropagation()">
+      <div class="v-media">
+        <button class="v-nav v-prev" (click)="prev()" aria-label="Anterior">‹</button>
+        <div class="v-frame">
+          <img [src]="photo()" [alt]="b.name" (error)="onImgError()">
+        </div>
+        <button class="v-nav v-next" (click)="next()" aria-label="Siguiente">›</button>
+      </div>
+
+      <div class="v-dots">
+        @for (p of b.photos; track $index) {
+          <button class="v-dot" [class.active]="photoIndex() === $index" (click)="goTo($index)"></button>
+        }
+      </div>
+
+      <div class="v-info">
+        <div class="v-info-head">
+          <h3>{{ b.name }}</h3>
+          <span class="v-index">{{ photoIndex() + 1 }} / {{ b.photos.length }}</span>
+        </div>
+        <p class="v-addr">{{ b.address }}</p>
+        <ul class="v-hours">
+          @for (h of b.hours; track h) { <li>{{ h }}</li> }
+        </ul>
+        <div class="v-actions">
+          <span class="v-phone">Tel. {{ b.phone }}</span>
+          <a class="v-wa" [href]="'https://wa.me/' + b.whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+}

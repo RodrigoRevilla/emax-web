@@ -1,0 +1,56 @@
+<main class="cmp">
+  <header class="cmp-head">
+    <a class="cmp-back" href="/">← Volver al inicio</a>
+    <p class="eyebrow">Comprobantes</p>
+    <h1 class="cmp-title">Consulta tu comprobante</h1>
+    <p class="cmp-lede">
+      ¿Ya hiciste un pago y perdiste tu comprobante? Escribe tu folio (empieza con
+      EMAX-) para verlo y descargarlo de nuevo.
+    </p>
+  </header>
+
+  @if (comprobante(); as comp) {
+    <section class="cmp-ticket">
+      <div class="tk-check">✓</div>
+      <h2>Pago confirmado</h2>
+      <p class="tk-folio">Folio {{ comp.folio }}</p>
+
+      <dl class="tk-datos">
+        <dt>Alumno</dt><dd>{{ comp.alumno }}</dd>
+        <dt>Sucursal</dt><dd>{{ comp.sucursal }}</dd>
+        <dt>Fecha</dt><dd>{{ comp.fecha }}</dd>
+      </dl>
+
+      <ul class="tk-lineas">
+        @for (c of comp.conceptos; track c.label) {
+          <li><span>{{ c.label }}</span><span>{{ c.precio | currency:'MXN':'symbol-narrow' }}</span></li>
+        }
+        @if (comp.descuento > 0) {
+          <li class="tk-desc"><span>Descuento pronto pago</span><span>−{{ comp.descuento | currency:'MXN':'symbol-narrow' }}</span></li>
+        }
+      </ul>
+
+      <p class="tk-total">Total pagado <strong>{{ comp.total | currency:'MXN':'symbol-narrow' }}</strong></p>
+      <p class="tk-nota">
+        <strong>Guarda este folio.</strong> Lo necesitarás para el descuento de pronto pago en tu 2ª colegiatura.
+      </p>
+      <div class="tk-acciones">
+        <button class="tk-descargar" (click)="descargar()">Descargar comprobante (PDF)</button>
+        <button class="tk-otro" (click)="otro()">Consultar otro folio</button>
+      </div>
+    </section>
+  } @else {
+    <section class="cmp-buscar">
+      <label class="cmp-lbl">Folio</label>
+      <div class="cmp-fila">
+        <input type="text" class="cmp-input" [ngModel]="folio()"
+               (ngModelChange)="setFolio($event)" (keyup.enter)="buscar()"
+               placeholder="EMAX-XXXXXXXX">
+        <button class="cmp-btn" (click)="buscar()" [disabled]="!folio() || buscando()">
+          {{ buscando() ? 'Buscando…' : 'Buscar' }}
+        </button>
+      </div>
+      @if (error(); as e) { <p class="cmp-error">{{ e }}</p> }
+    </section>
+  }
+</main>

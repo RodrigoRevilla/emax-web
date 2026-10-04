@@ -1,0 +1,18 @@
+# dependencias
+/node_modules
+
+# compilados
+/dist
+/tmp
+/out-tsc
+/.angular/cache
+
+# entorno / editores
+.vscode/*
+.idea
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log
+yarn-error.log

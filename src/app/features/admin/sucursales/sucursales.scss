@@ -1,0 +1,28 @@
+.suc-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; gap: 16px; }
+.suc-titulo { font-family: var(--font-display); font-size: 28px; }
+.suc-sub { color: rgba(11,11,18,.6); margin-top: 4px; max-width: 55ch; }
+.suc-ver { padding: 9px 18px; border-radius: 999px; border: 1px solid rgba(11,11,18,.15); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.suc-ver:hover { border-color: var(--gold); color: var(--gold-dark); }
+.ok-msg { color: #148f47; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+
+.editor { background: #fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 20px; }
+.editor h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 16px; }
+.editor label { display: block; font-size: 13px; font-weight: 600; color: rgba(11,11,18,.7); margin-bottom: 14px; }
+.editor input, .editor textarea { width: 100%; margin-top: 6px; padding: 11px 13px; border: 1px solid rgba(11,11,18,.16); border-radius: 9px; font: inherit; font-weight: 400; resize: vertical; }
+.editor input:focus, .editor textarea:focus { outline: 2px solid var(--gold); border-color: transparent; }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ed-acciones { display: flex; gap: 10px; margin-top: 6px; }
+.ed-guardar { padding: 12px 28px; border-radius: 999px; background: var(--navy); color: var(--bone); font-weight: 600; }
+.ed-cancelar { padding: 12px 22px; border-radius: 999px; border: 1px solid rgba(11,11,18,.15); font-weight: 600; }
+
+.suc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.scard { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+.scard img { width: 100%; height: 150px; object-fit: cover; }
+.scard-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+.scard-body h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 6px; }
+.scard-addr { font-size: 13px; color: rgba(11,11,18,.6); line-height: 1.45; }
+.scard-datos { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; font-size: 12px; color: rgba(11,11,18,.65); }
+.scard-ed { margin-top: auto; padding: 10px; border-radius: 8px; background: var(--bone); font-weight: 600; font-size: 13px; }
+.scard-ed:hover { background: var(--gold); color: var(--ink); }
+
+@media (max-width: 700px) { .dos { grid-template-columns: 1fr; } }

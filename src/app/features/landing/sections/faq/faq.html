@@ -1,0 +1,17 @@
+<section id="emax-faq" appReveal class="section faq">
+  <p class="eyebrow">{{ data().eyebrow }}</p>
+  <h2 class="h2">{{ data().title }}</h2>
+  <div class="faq-list">
+    @for (item of data().items; track item.q; let i = $index) {
+      <div class="faq-item" [class.open]="openIndex() === i">
+        <button class="faq-btn" (click)="toggle(i)" [attr.aria-expanded]="openIndex() === i">
+          <span>{{ item.q }}</span>
+          <span class="faq-chevron">＋</span>
+        </button>
+        @if (openIndex() === i) {
+          <div class="faq-answer"><p>{{ item.a }}</p></div>
+        }
+      </div>
+    }
+  </div>
+</section>

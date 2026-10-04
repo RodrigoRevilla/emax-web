@@ -1,0 +1,55 @@
+<div class="dsc">
+  <header class="dsc-head">
+    <div>
+      <h1 class="dsc-titulo">Descuentos</h1>
+      <p class="dsc-sub">Pronto pago, becas y convenios. Estos descuentos guían al personal al momento del cobro.</p>
+    </div>
+    <button class="btn-nuevo" (click)="nuevo()">+ Nuevo descuento</button>
+  </header>
+
+  @if (editando(); as e) {
+    <div class="editor">
+      <h3>{{ esNuevo() ? 'Nuevo descuento' : 'Editar descuento' }}</h3>
+      <div class="ed-grid">
+        <label class="ancho">Nombre
+          <input type="text" [ngModel]="e.nombre" (ngModelChange)="campo('nombre', $event)" placeholder="Ej. Pronto pago"></label>
+        <label class="ancho">Descripción
+          <textarea rows="2" [ngModel]="e.descripcion" (ngModelChange)="campo('descripcion', $event)" placeholder="Condiciones del descuento"></textarea></label>
+        <label>Tipo
+          <select [ngModel]="e.tipo" (ngModelChange)="campo('tipo', $event)">
+            <option value="monto">Monto fijo ($)</option>
+            <option value="porcentaje">Porcentaje (%)</option>
+          </select></label>
+        <label>Valor
+          <input type="number" min="0" [ngModel]="e.valor" (ngModelChange)="campo('valor', +$event)"></label>
+      </div>
+      <div class="ed-acciones">
+        <button class="ed-guardar" (click)="guardar()">Guardar</button>
+        <button class="ed-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+  }
+
+  <div class="dsc-grid">
+    @for (d of descuentos; track d.id) {
+      <article class="dcard" [class.inactivo]="!d.activo">
+        <div class="dcard-top">
+          <span class="dcard-valor">
+            {{ d.tipo === 'monto' ? '−$' + d.valor : '−' + d.valor + '%' }}
+          </span>
+          <span class="estado-badge" [class.on]="d.activo">{{ d.activo ? 'Activo' : 'Inactivo' }}</span>
+        </div>
+        <h3 class="dcard-nombre">{{ d.nombre }}</h3>
+        <p class="dcard-desc">{{ d.descripcion }}</p>
+
+        <div class="dcard-acc">
+          <button class="acc-toggle" [class.on]="d.activo" (click)="toggle(d)">
+            {{ d.activo ? 'Desactivar' : 'Activar' }}
+          </button>
+          <button class="acc-ed" (click)="editar(d)">Editar</button>
+          <button class="acc-del" (click)="eliminar(d)">Eliminar</button>
+        </div>
+      </article>
+    }
+  </div>
+</div>

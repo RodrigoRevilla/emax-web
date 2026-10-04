@@ -1,0 +1,134 @@
+<div class="cur">
+  <header class="cur-head">
+    <h1 class="cur-titulo">Cursos y precios</h1>
+    <p class="cur-sub">Estos precios alimentan la sección de programas de la landing y el catálogo de pagos.</p>
+  </header>
+
+  <div class="cur-toolbar">
+    <div class="cur-tabs">
+      @for (c of listaCursos; track c.id) {
+        <button class="cur-tab" [class.on]="cursoActivo() === c.id" (click)="seleccionar(c.id)">
+          <span class="tab-flag">{{ c.bandera }}</span>{{ c.nombre }}
+        </button>
+      }
+    </div>
+    <button class="btn-primario" (click)="nuevoCurso()">+ Nuevo curso</button>
+  </div>
+
+  @if (cursoEditando(); as ce) {
+    <div class="editor">
+      <h3 class="ed-titulo">{{ ce.id ? 'Editar curso' : 'Nuevo curso' }}</h3>
+      <div class="ed-grid">
+        <label class="ed-ancho">
+          Nombre
+          <input type="text" [ngModel]="ce.nombre" (ngModelChange)="campoCurso('nombre', $event)"
+                 placeholder="Ej. Inglés">
+        </label>
+        <label>
+          Bandera (emoji)
+          <input type="text" [ngModel]="ce.bandera" (ngModelChange)="campoCurso('bandera', $event)"
+                 placeholder="🇺🇸">
+        </label>
+        <label>
+          Orden
+          <input type="number" min="0" [ngModel]="ce.orden" (ngModelChange)="campoCurso('orden', +$event)">
+        </label>
+        <label class="ed-ancho">
+          Descripción
+          <input type="text" [ngModel]="ce.descripcion" (ngModelChange)="campoCurso('descripcion', $event)"
+                 placeholder="Ej. Inglés americano · Emax Method">
+        </label>
+      </div>
+      <div class="ed-acciones">
+        <button class="ed-guardar" (click)="guardarCurso()">Guardar</button>
+        <button class="ed-cancelar" (click)="cancelarCurso()">Cancelar</button>
+      </div>
+    </div>
+  }
+
+  @if (cursoActivo()) {
+    <div class="cur-panel">
+      <div class="panel-top">
+        <div class="panel-info">
+          <h2 class="panel-titulo">Conceptos</h2>
+          <span class="panel-count">{{ preciosCurso().length }}</span>
+        </div>
+        <div class="panel-acc">
+          <button class="btn-ghost" (click)="editarCurso()" title="Editar este curso">✏️ Curso</button>
+          <button class="btn-ghost danger" (click)="eliminarCurso()" title="Eliminar este curso">🗑️ Curso</button>
+          <button class="btn-primario gold" (click)="nuevo()">+ Nuevo concepto</button>
+        </div>
+      </div>
+
+      @if (editando(); as e) {
+        <div class="editor">
+          <h3 class="ed-titulo">{{ e.concepto ? 'Editar concepto' : 'Nuevo concepto' }}</h3>
+          <div class="ed-grid">
+            <label class="ed-ancho">
+              Concepto
+              <input type="text" [ngModel]="e.concepto" (ngModelChange)="campo('concepto', $event)"
+                     placeholder="Ej. TEENS · Lun-Vie">
+            </label>
+            <label class="ed-ancho">
+              Detalle
+              <input type="text" [ngModel]="e.detalle" (ngModelChange)="campo('detalle', $event)"
+                     placeholder="Ej. 11 a 13 años">
+            </label>
+            <label>
+              Tipo
+              <select [ngModel]="e.tipo" (ngModelChange)="campo('tipo', $event)">
+                @for (t of tipos; track t) { <option [value]="t">{{ t }}</option> }
+              </select>
+            </label>
+            <label>
+              Precio (MXN)
+              <input type="number" min="0" [ngModel]="e.precio" (ngModelChange)="campo('precio', +$event)">
+            </label>
+          </div>
+          <div class="ed-acciones">
+            <button class="ed-guardar" (click)="guardar()">Guardar</button>
+            <button class="ed-cancelar" (click)="cancelar()">Cancelar</button>
+          </div>
+        </div>
+      }
+
+      @if (preciosCurso().length === 0) {
+        <p class="panel-vacio">Este curso aún no tiene conceptos. Agrega uno con “+ Nuevo concepto”.</p>
+      } @else {
+        <div class="tabla">
+          <div class="t-head">
+            <span>Concepto</span>
+            <span>Tipo</span>
+            <span class="t-right">Precio</span>
+            <span class="t-center">Estado</span>
+            <span></span>
+          </div>
+          @for (p of preciosCurso(); track p.id) {
+            <div class="t-row" [class.inactivo]="!p.activo">
+              <div class="t-concepto">
+                <span class="td-concepto">{{ p.concepto }}</span>
+                @if (p.detalle) { <span class="td-detalle">{{ p.detalle }}</span> }
+              </div>
+              <div><span class="chip chip-{{ p.tipo }}">{{ p.tipo }}</span></div>
+              <div class="t-right td-precio">{{ p.precio | currency:'MXN':'symbol-narrow' }}</div>
+              <div class="t-center">
+                <button class="toggle" [class.on]="p.activo" (click)="toggle(p)"
+                        [title]="p.activo ? 'Visible en la web · clic para ocultar' : 'Oculto · clic para mostrar'">
+                  <span class="dot"></span>{{ p.activo ? 'Visible' : 'Oculto' }}
+                </button>
+              </div>
+              <div class="t-acc">
+                <button class="icon-btn" (click)="editar(p)" title="Editar concepto">✏️</button>
+                <button class="icon-btn danger" (click)="eliminar(p)" title="Eliminar concepto">🗑️</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="cur-panel">
+      <p class="panel-vacio">Aún no hay cursos. Crea uno con “+ Nuevo curso” para empezar a cargar precios.</p>
+    </div>
+  }
+</div>

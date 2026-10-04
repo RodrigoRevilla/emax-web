@@ -1,0 +1,17 @@
+<header id="top" class="hero" data-screen-label="e.Max Hero">
+  <video #heroVideo class="hero-video" [src]="data().video" poster="assets/hero-poster.jpg"
+         autoplay muted loop playsinline preload="auto"></video>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner">
+    <p class="hero-kicker">{{ data().kicker }}</p>
+    <h1 class="hero-title">
+      {{ data().title }} <span class="accent">{{ data().titleAccent }}</span>
+    </h1>
+    <p class="hero-sub">{{ data().subtitle }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold" routerLink="/pagos">Procede al pago</a>
+      <a class="btn btn-ghost" href="#contacto">{{ data().ctaPrimary }}</a>
+      <a class="btn btn-ghost" href="#metodo">{{ data().ctaSecondary }}</a>
+    </div>
+  </div>
+</header>

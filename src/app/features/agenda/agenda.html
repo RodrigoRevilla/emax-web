@@ -1,0 +1,71 @@
+<main class="agenda">
+  <header class="ag-head">
+    <a class="ag-back" href="/">← Volver al inicio</a>
+    <p class="eyebrow">Agenda una cita</p>
+    <h1 class="ag-title">Reserva tu clase de prueba gratuita</h1>
+    <p class="ag-lede">Déjanos tus datos y elige cuándo quieres visitarnos. Te confirmamos por WhatsApp o correo.</p>
+  </header>
+
+  @if (enviada()) {
+    <section class="ag-ok">
+      <div class="ok-check">✓</div>
+      <h2>¡Cita registrada!</h2>
+      <p class="ok-folio">Folio {{ folio() }}</p>
+      <p class="ok-nota">Nos pondremos en contacto contigo para confirmar tu cita. ¡Te esperamos!</p>
+      <button class="ok-otra" (click)="otra()">Agendar otra cita</button>
+    </section>
+  } @else {
+    <section class="ag-form">
+      <div class="campos">
+        <label class="ancho">
+          Nombre completo
+          <input type="text" [ngModel]="f().nombre" (ngModelChange)="set('nombre', $event)" placeholder="Tu nombre">
+        </label>
+        <label>
+          Teléfono
+          <input type="tel" inputmode="numeric" maxlength="10" [ngModel]="f().telefono" (ngModelChange)="set('telefono', soloDigitos($event))" placeholder="10 dígitos">
+        </label>
+        <label>
+          Correo (opcional)
+          <input type="email" [ngModel]="f().email" (ngModelChange)="set('email', $event)" placeholder="tucorreo@mail.com">
+        </label>
+        <label>
+          Sucursal
+          <select [ngModel]="f().sucursal" (ngModelChange)="set('sucursal', $event)">
+            <option value="">Elige una sede</option>
+            @for (s of sucursales; track s) { <option [value]="s">{{ s }}</option> }
+          </select>
+        </label>
+        <label>
+          Curso de interés
+          <select [ngModel]="f().curso" (ngModelChange)="set('curso', $event)">
+            <option value="">¿Qué quieres aprender?</option>
+            @for (c of cursos; track c) { <option [value]="c">{{ c }}</option> }
+          </select>
+        </label>
+        <label>
+          Fecha
+          <input type="date" [min]="hoy" [max]="maxFecha" [ngModel]="f().fecha" (ngModelChange)="set('fecha', $event)"
+                 [class.campo-error]="avisoFecha() !== ''">
+          @if (avisoFecha(); as a) { <span class="campo-aviso">{{ a }}</span> }
+        </label>
+        <label>
+          Hora
+          <select [ngModel]="f().hora" (ngModelChange)="set('hora', $event)">
+            <option value="">Elige un horario</option>
+            @for (h of horas; track h) { <option [value]="h">{{ h }}</option> }
+          </select>
+        </label>
+        <label class="ancho">
+          Mensaje (opcional)
+          <textarea rows="3" [ngModel]="f().mensaje" (ngModelChange)="set('mensaje', $event)"
+                    placeholder="Cuéntanos qué necesitas, edad del alumno, etc."></textarea>
+        </label>
+      </div>
+
+      <button class="ag-btn" [disabled]="!valido()" (click)="enviar()">Agendar cita</button>
+      @if (!valido() && avisoFecha() === '') { <p class="ag-ayuda">Completa nombre, teléfono, sucursal, curso, fecha y hora.</p> }
+      @if (avisoFecha(); as a) { <p class="ag-ayuda ag-ayuda-err">{{ a }}</p> }
+    </section>
+  }
+</main>

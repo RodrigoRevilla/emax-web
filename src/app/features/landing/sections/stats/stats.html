@@ -1,0 +1,8 @@
+<section id="emax-stats" appReveal class="stats">
+  @for (s of items(); track s.label) {
+    <div class="stat">
+      <span class="stat-value">{{ s.value }}</span>
+      <span class="stat-label">{{ s.label }}</span>
+    </div>
+  }
+</section>

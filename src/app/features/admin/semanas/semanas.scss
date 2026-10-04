@@ -1,0 +1,25 @@
+.sm-wrap { padding: 8px 4px 40px; display: flex; flex-direction: column; gap: 24px; }
+.sm-head h1 { margin: 0 0 4px; }
+.sm-head p { margin: 0; color: rgba(11,11,18,0.6); max-width: 640px; }
+.sm-col-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.sm-col-head h2 { margin: 0; font-size: 1.1rem; }
+.sm-nuevo { padding: 8px 16px; border: none; border-radius: 999px; background: var(--navy, #0b0b12); color: #fff; font-weight: 600; cursor: pointer; }
+.sm-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sm-lista li { display: grid; grid-template-columns: 1.4fr 1fr auto auto; align-items: center; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid #eee; border-radius: 12px; }
+.sm-lista li.inactiva { opacity: 0.5; }
+.sm-fechas { font-weight: 600; }
+.sm-etq { color: rgba(11,11,18,0.6); }
+.sm-estado { font-size: 0.85rem; }
+.sm-acc { display: flex; gap: 6px; }
+.sm-acc button { padding: 6px 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; cursor: pointer; font-size: 0.85rem; }
+.sm-del { color: #c0392b; border-color: #f0c9c4 !important; }
+.sm-vacio { color: rgba(11,11,18,0.5); }
+.sm-form { background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px; }
+.sm-form h2 { margin: 0 0 14px; font-size: 1.05rem; }
+.sm-campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.sm-campos label { display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; font-weight: 600; }
+.sm-campos input, .sm-campos select { padding: 10px; border: 1px solid #ddd; border-radius: 8px; font: inherit; }
+.sm-form-acc { display: flex; gap: 10px; margin-top: 16px; }
+.sm-guardar { padding: 10px 22px; border: none; border-radius: 999px; background: #d4a017; color: #1a1a1a; font-weight: 700; cursor: pointer; }
+.sm-guardar:disabled { opacity: 0.5; cursor: not-allowed; }
+.sm-cancelar { padding: 10px 22px; border: 1px solid #ddd; border-radius: 999px; background: #fff; cursor: pointer; }

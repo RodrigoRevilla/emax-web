@@ -1,0 +1,51 @@
+<div class="suc">
+  <header class="suc-head">
+    <div>
+      <h1 class="suc-titulo">Sucursales</h1>
+      <p class="suc-sub">Edita los datos de cada sede. Las fotos se gestionan directamente en el servidor.</p>
+    </div>
+    <a class="suc-ver" href="/#campus" target="_blank">Ver en la página ↗</a>
+  </header>
+
+  @if (guardado()) { <p class="ok-msg">✓ Guardado. Recarga la landing para verlo.</p> }
+
+  @if (editando(); as e) {
+    <div class="editor">
+      <h3>Editar {{ e.name }}</h3>
+      <label>Nombre de la sede
+        <input type="text" [ngModel]="e.name" (ngModelChange)="campo('name', $event)"></label>
+      <label>Dirección
+        <textarea rows="2" [ngModel]="e.address" (ngModelChange)="campo('address', $event)"></textarea></label>
+      <div class="dos">
+        <label>Teléfono
+          <input type="text" [ngModel]="e.phone" (ngModelChange)="campo('phone', $event)" placeholder="951 000 00 00"></label>
+        <label>WhatsApp (52 + 10 dígitos)
+          <input type="text" [ngModel]="e.whatsapp" (ngModelChange)="campo('whatsapp', $event)" placeholder="52951..."></label>
+      </div>
+      <label>Horarios (uno por renglón)
+        <textarea rows="4" [ngModel]="horariosTexto()" (ngModelChange)="setHorarios($event)" placeholder="Lun–Vie 8:00–20:00&#10;Sáb 8:00–14:00"></textarea></label>
+
+      <div class="ed-acciones">
+        <button class="ed-guardar" (click)="guardar()">Guardar</button>
+        <button class="ed-cancelar" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+  }
+
+  <div class="suc-grid">
+    @for (s of sedes; track s.id) {
+      <article class="scard">
+        <div class="scard-body">
+          <h3>{{ s.name }}</h3>
+          <p class="scard-addr">{{ s.address }}</p>
+          <div class="scard-datos">
+            @if (s.phone) { <span>📞 {{ s.phone }}</span> }
+            @if (s.whatsapp) { <span>💬 WhatsApp</span> }
+            <span>🕐 {{ s.hours.length }} horario(s)</span>
+          </div>
+          <button class="scard-ed" (click)="editar(s)">Editar datos</button>
+        </div>
+      </article>
+    }
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="pa">
+  <header class="pa-head">
+    <div>
+      <h1 class="pa-titulo">Pagos recibidos</h1>
+      <p class="pa-sub">Pagos realizados desde la página web.</p>
+    </div>
+    <div class="pa-export">
+      <label class="pa-mes">
+        <span>Mes</span>
+        <input type="month" [ngModel]="mes()" (ngModelChange)="setMes($event)">
+      </label>
+      @if (mes()) { <button class="btn-ghost" (click)="limpiarMes()">Todos</button> }
+      <button class="btn-excel" (click)="exportarExcel()">⬇ Descargar Excel</button>
+    </div>
+  </header>
+
+  <div class="pa-resumen">
+    <div class="rc">
+      <span class="rc-lbl">Pagos</span>
+      <span class="rc-num">{{ lista().length }}</span>
+    </div>
+    <div class="rc rc-gold">
+      <span class="rc-lbl">Recaudado</span>
+      <span class="rc-num">{{ totalRecaudado() | currency:'MXN':'symbol-narrow' }}</span>
+    </div>
+    @if (pendientes() > 0) {
+      <div class="rc rc-warn">
+        <span class="rc-lbl">Sin registrar</span>
+        <span class="rc-num">{{ pendientes() }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="pa-controles">
+    <div class="pa-buscador">
+      <span class="bus-ico">🔎</span>
+      <input type="text" [ngModel]="busqueda()" (ngModelChange)="setBusqueda($event)"
+             placeholder="Buscar por folio, nombre o correo…">
+    </div>
+    <div class="pa-filtros">
+      @for (s of sucursales; track s) {
+        <button class="chip-fil" [class.on]="filtroSucursal() === s" (click)="setSucursal(s)">{{ s }}</button>
+      }
+    </div>
+  </div>
+
+  @if (lista().length === 0) {
+    <div class="pa-panel"><p class="panel-vacio">No hay pagos en este filtro.</p></div>
+  } @else {
+    <div class="pa-panel">
+      <div class="tabla">
+        <div class="t-head">
+          <span>Folio / Fecha</span>
+          <span>Alumno</span>
+          <span>Sucursal</span>
+          <span>Conceptos</span>
+          <span class="t-right">Total</span>
+          <span class="t-center">Estado</span>
+        </div>
+        @for (p of lista(); track p.folio) {
+          <div class="t-row">
+            <div class="t-folio">
+              <span class="td-folio">{{ p.folio }}</span>
+              <span class="td-fecha">{{ p.fecha }}</span>
+            </div>
+            <div class="t-alumno">
+              <span class="td-alumno">{{ p.alumno }}</span>
+              <span class="td-email">{{ p.email }}</span>
+            </div>
+            <div class="t-suc">{{ p.sucursal }}</div>
+            <div class="t-conceptos">
+              @for (c of p.conceptos; track c.label) { <span class="cpt">{{ c.label }}</span> }
+              @if (p.descuento > 0) { <span class="cpt cpt-desc">−{{ p.descuento | currency:'MXN':'symbol-narrow' }} pronto pago</span> }
+            </div>
+            <div class="t-right td-total">{{ p.total | currency:'MXN':'symbol-narrow' }}</div>
+            <div class="t-acc">
+              <button class="est-btn" [class.est-ok]="p.atendido" (click)="toggleAtendido(p)"
+                      [title]="p.atendido ? 'Marcar como pendiente' : 'Marcar como registrado'">
+                <span class="e-dot"></span>{{ p.atendido ? 'Registrado' : 'Pendiente' }}
+              </button>
+              @if (p.telefono) {
+                <button class="wa-btn" (click)="whatsapp(p)" title="Enviar comprobante por WhatsApp">WhatsApp</button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

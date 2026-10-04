@@ -1,0 +1,46 @@
+#emax-sticky-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 900;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; padding: 0 var(--pad-x);
+  background: rgba(11, 11, 18, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201, 162, 75, 0.18);
+  transform: translateY(-100%);
+  transition: transform 320ms ease;
+  &.visible { transform: translateY(0); }
+}
+.nav-logo { display: flex; align-items: center; height: 100%; }
+.nav-logo img { height: 34px; width: auto; }
+.nav-links { display: flex; gap: 28px; list-style: none; white-space: nowrap;
+  a { color: var(--bone-dim); font-size: 14px; transition: color 160ms; }
+  a:hover { color: var(--gold); }
+}
+.nav-cta { padding: 9px 20px; border-radius: 999px; background: var(--gold); color: var(--ink); font-weight: 600; font-size: 14px; }
+
+/* Botón hamburguesa (oculto en escritorio) */
+.nav-burger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 42px; height: 42px; padding: 0 9px; border: none; background: transparent; cursor: pointer;
+}
+.nav-burger span { display: block; height: 2px; border-radius: 2px; background: var(--bone, #f4f2ec); transition: transform 220ms, opacity 180ms; }
+.nav-burger.abierto span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.abierto span:nth-child(2) { opacity: 0; }
+.nav-burger.abierto span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Panel desplegable en móvil */
+.nav-movil {
+  position: absolute; top: 60px; left: 0; right: 0;
+  display: flex; flex-direction: column;
+  background: rgba(11, 11, 18, 0.98); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201, 162, 75, 0.18);
+  padding: 8px 0;
+  a { padding: 14px var(--pad-x); color: var(--bone-dim, #e8e5db); font-size: 15px; font-weight: 500; }
+  a:active { background: rgba(255,255,255,.05); }
+  .nav-movil-cta { color: var(--gold, #d4a017); font-weight: 700; }
+}
+
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-burger { display: flex; }
+}

@@ -1,0 +1,27 @@
+<main class="lg">
+  <header class="lg-head">
+    <a class="lg-back" href="/">← Volver al inicio</a>
+    <h1 class="lg-title">Información legal</h1>
+    <p class="lg-lede">Reglamento interno y Aviso de Privacidad del Instituto Práctico de Idiomas A.C. (e.Max Learning Institute).</p>
+
+    <div class="lg-tabs">
+      <button [class.on]="doc() === 'reglamento'" (click)="ver('reglamento')">Reglamento</button>
+      <button [class.on]="doc() === 'privacidad'" (click)="ver('privacidad')">Aviso de privacidad</button>
+    </div>
+  </header>
+
+  <article class="lg-doc">
+    @if (cargando()) {
+      <p class="lg-cargando">Cargando documento…</p>
+    } @else {
+      @for (b of bloques(); track $index) {
+        @switch (b.tipo) {
+          @case ('h1') { <h2 class="b-h1">{{ b.texto }}</h2> }
+          @case ('h2') { <h3 class="b-h2">{{ b.texto }}</h3> }
+          @case ('h3') { <h4 class="b-h3">{{ b.texto }}</h4> }
+          @default { <p class="b-p">{{ b.texto }}</p> }
+        }
+      }
+    }
+  </article>
+</main>

@@ -1,0 +1,30 @@
+.agenda { min-height: 100vh; padding: clamp(32px, 6vw, 72px) var(--pad-x); background: var(--bone-warm); }
+.ag-head { max-width: 700px; margin: 0 auto 32px; }
+.ag-back { font-size: 14px; color: rgba(11,11,18,.6); }
+.ag-back:hover { color: var(--gold); }
+.ag-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 5vw, 42px); margin: 10px 0 12px; }
+.ag-lede { color: rgba(11,11,18,.7); line-height: 1.6; max-width: 55ch; }
+
+.ag-form { max-width: 700px; margin: 0 auto; background: #fff; border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow-sm); }
+.campos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.campos .ancho { grid-column: span 2; }
+.campos label { display: block; font-size: 13px; font-weight: 600; color: rgba(11,11,18,.7); }
+.campos input, .campos select, .campos textarea { width: 100%; margin-top: 6px; padding: 12px 14px;
+  border: 1px solid rgba(11,11,18,.16); border-radius: 10px; font: inherit; font-weight: 400; }
+.campos input:focus, .campos select:focus, .campos textarea:focus { outline: 2px solid var(--gold); border-color: transparent; }
+
+.ag-btn { width: 100%; margin-top: 22px; padding: 15px; border-radius: 999px; background: var(--gold); color: var(--ink); font-weight: 700; transition: opacity 160ms; }
+.ag-btn:disabled { opacity: .4; cursor: not-allowed; }
+.ag-ayuda { font-size: 12px; color: rgba(11,11,18,.55); margin-top: 10px; text-align: center; }
+
+.ag-ok { max-width: 480px; margin: 0 auto; text-align: center; background: #fff; border-radius: var(--radius); padding: 44px; box-shadow: var(--shadow-md); }
+.ok-check { display: grid; place-items: center; width: 62px; height: 62px; margin: 0 auto 18px; border-radius: 50%; background: var(--wa); color: #fff; font-size: 32px; }
+.ag-ok h2 { font-family: var(--font-display); font-size: 28px; }
+.ok-folio { font-family: var(--font-mono); color: var(--gold); margin-top: 6px; }
+.ok-nota { color: rgba(11,11,18,.65); margin-top: 16px; line-height: 1.5; }
+.ok-otra { margin-top: 24px; padding: 12px 28px; border-radius: 999px; background: var(--navy); color: var(--bone); font-weight: 600; }
+
+@media (max-width: 640px) { .campos { grid-template-columns: 1fr; } .campos .ancho { grid-column: span 1; } }
+.campo-aviso { display: block; margin-top: 6px; font-size: 12.5px; color: #c0392b; }
+.campo-error { border-color: #e3a0a0 !important; }
+.ag-ayuda-err { color: #c0392b; }

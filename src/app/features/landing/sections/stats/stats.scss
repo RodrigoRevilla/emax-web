@@ -1,0 +1,7 @@
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  padding: clamp(40px, 6vw, 72px) var(--pad-x); background: var(--ink); }
+.stat { text-align: center; }
+.stat-value { display: block; font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(30px, 5vw, 52px); color: var(--gold); }
+.stat-label { color: var(--bone-dim); font-size: 14px; }
+@media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }

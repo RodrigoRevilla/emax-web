@@ -1,0 +1,32 @@
+<div class="admin" [class.colapsado]="colapsado()">
+  <aside class="side">
+    <div class="side-top">
+      <span class="side-logo">e.Max</span>
+      <button class="side-toggle" (click)="colapsado.set(!colapsado())" aria-label="Menú">☰</button>
+    </div>
+    <nav class="side-nav">
+      @for (item of items(); track item.ruta) {
+        <a [routerLink]="item.ruta" routerLinkActive="activo">
+          <span class="side-ico">{{ item.icon }}</span>
+          <span class="side-label">{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span class="tb-tit">Panel de administración</span>
+      <div class="tb-user">
+        <div class="tb-datos">
+          <span class="tb-nombre">{{ sesion()?.nombre }}</span>
+          <span class="tb-rol">{{ sesion()?.rol }}</span>
+        </div>
+        <button class="tb-salir" (click)="salir()">Salir</button>
+      </div>
+    </header>
+    <section class="contenido">
+      <router-outlet />
+    </section>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="dash">
+  <header class="dash-head">
+    <h1>Resumen</h1>
+    <p>Una foto rápida de e.Max al día de hoy.</p>
+  </header>
+
+  @if (!listo()) {
+    <p class="dash-cargando">Cargando datos…</p>
+  } @else {
+    <div class="dash-cards">
+      <a class="card card-gold" routerLink="/admin/pagos">
+        <span class="card-lbl">Ingresos de {{ nombreMes() }}</span>
+        <span class="card-num">{{ ingresosMes() | currency:'MXN':'symbol-narrow' }}</span>
+      </a>
+      <a class="card" routerLink="/admin/pagos">
+        <span class="card-lbl">Pagos de hoy</span>
+        <span class="card-num">{{ pagosHoy().length }}</span>
+        <span class="card-sub">{{ ingresosHoy() | currency:'MXN':'symbol-narrow' }}</span>
+      </a>
+      <a class="card" routerLink="/admin/citas">
+        <span class="card-lbl">Citas de hoy</span>
+        <span class="card-num">{{ citasHoy().length }}</span>
+        @if (citasPorConfirmar() > 0) { <span class="card-sub">{{ citasPorConfirmar() }} por confirmar</span> }
+      </a>
+      <a class="card" routerLink="/admin/pagos">
+        <span class="card-lbl">Total recaudado</span>
+        <span class="card-num">{{ totalRecaudado() | currency:'MXN':'symbol-narrow' }}</span>
+        <span class="card-sub">{{ alumnosPagaron() }} pagos en total</span>
+      </a>
+    </div>
+
+    @if (pagosSinRegistrar() > 0) {
+      <a class="dash-alerta" routerLink="/admin/pagos">
+        ⚠️ Tienes <strong>{{ pagosSinRegistrar() }}</strong> pago(s) sin registrar en recepción.
+      </a>
+    }
+
+    @if (hayIngresos()) {
+      <div class="dash-charts">
+        <section class="chart-card">
+          <h2>Ingresos por mes</h2>
+          <div class="bars">
+            @for (it of ingresosPorMes(); track it.label) {
+              <div class="bar-row">
+                <span class="bar-lbl">{{ it.label }}</span>
+                <div class="bar-track"><div class="bar-fill" [style.width.%]="it.pct"></div></div>
+                <span class="bar-val">{{ it.valor | currency:'MXN':'symbol-narrow' }}</span>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="chart-card">
+          <h2>Ingresos por sucursal</h2>
+          <div class="bars">
+            @for (it of ingresosPorSucursal(); track it.label) {
+              <div class="bar-row">
+                <span class="bar-lbl">{{ it.label }}</span>
+                <div class="bar-track"><div class="bar-fill bar-suc" [style.width.%]="it.pct"></div></div>
+                <span class="bar-val">{{ it.valor | currency:'MXN':'symbol-narrow' }}</span>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="chart-card">
+          <h2>Ingresos por concepto</h2>
+          <div class="bars">
+            @for (it of ingresosPorConcepto(); track it.label) {
+              <div class="bar-row">
+                <span class="bar-lbl">{{ it.label }}</span>
+                <div class="bar-track"><div class="bar-fill bar-con" [style.width.%]="it.pct"></div></div>
+                <span class="bar-val">{{ it.valor | currency:'MXN':'symbol-narrow' }}</span>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    }
+
+    <div class="dash-cols">
+      <section class="dash-panel">
+        <div class="panel-head">
+          <h2>Próximas citas</h2>
+          <a routerLink="/admin/citas">Ver todas →</a>
+        </div>
+        @if (proximasCitas().length === 0) {
+          <p class="panel-vacio">No hay citas próximas.</p>
+        } @else {
+          <ul class="mini-lista">
+            @for (c of proximasCitas(); track c.id) {
+              <li>
+                <span class="ml-1">{{ c.nombre }}</span>
+                <span class="ml-2">{{ c.fecha }} · {{ c.hora }} h</span>
+                <span class="ml-3">{{ c.sucursal }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section class="dash-panel">
+        <div class="panel-head">
+          <h2>Últimos pagos</h2>
+          <a routerLink="/admin/pagos">Ver todos →</a>
+        </div>
+        @if (ultimosPagos().length === 0) {
+          <p class="panel-vacio">Aún no hay pagos.</p>
+        } @else {
+          <ul class="mini-lista">
+            @for (p of ultimosPagos(); track p.id) {
+              <li>
+                <span class="ml-1">{{ p.alumno }}</span>
+                <span class="ml-2">{{ p.total | currency:'MXN':'symbol-narrow' }}</span>
+                <span class="ml-3">{{ p.fecha }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    </div>
+  }
+</div>

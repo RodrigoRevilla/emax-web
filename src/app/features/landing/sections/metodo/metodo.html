@@ -1,0 +1,14 @@
+<section id="metodo" appReveal class="section metodo">
+  <p class="eyebrow">{{ data().eyebrow }}</p>
+  <h2 class="h2">{{ data().title }}</h2>
+  <p class="lede">{{ data().lede }}</p>
+  <div class="method-grid">
+    @for (card of data().cards; track card.title) {
+      <article class="method-card">
+        <h3>{{ card.title }}</h3>
+        <p>{{ card.body }}</p>
+      </article>
+    }
+  </div>
+  <p class="mcer">{{ data().mcer }}</p>
+</section>

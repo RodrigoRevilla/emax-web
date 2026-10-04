@@ -1,0 +1,21 @@
+<section id="contacto" appReveal class="section contacto">
+  <div class="contacto-grid">
+    <div>
+      <p class="eyebrow">{{ data().eyebrow }}</p>
+      <h2 class="h2">{{ data().title }}</h2>
+      <dl class="contact-info">
+        <dt>Dirección</dt>
+        <dd>@for (line of data().info.address; track line) { <span>{{ line }}</span> }</dd>
+        <dt>Teléfono</dt>
+        <dd>{{ data().info.phone }}</dd>
+        <dt>Horario de atención</dt>
+        <dd>@for (h of data().info.hours; track h) { <span>{{ h }}</span> }</dd>
+      </dl>
+    </div>
+    <aside class="wa-card">
+      <h3>¿Tienes dudas? Escríbenos por WhatsApp</h3>
+      <p>Nuestro equipo está disponible para resolver tus preguntas sobre cursos, niveles, horarios y costos. Sin formularios, sin esperas.</p>
+      <a class="wa-btn" [href]="waLink()" target="_blank" rel="noopener">Abrir WhatsApp</a>
+    </aside>
+  </div>
+</section>

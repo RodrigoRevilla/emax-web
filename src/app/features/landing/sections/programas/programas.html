@@ -1,0 +1,21 @@
+<section id="programas" appReveal class="section programas">
+  <p class="eyebrow">{{ data().eyebrow }}</p>
+  <h2 class="h2">{{ data().title }}</h2>
+  <p class="lede">{{ data().lede }}</p>
+
+  <div class="lang-tabs" role="tablist">
+    @for (p of data().items; track p.id) {
+      <button class="lang-tab" role="tab" [class.active]="activeId() === p.id" (click)="select(p.id)">
+        <span class="flag">{{ p.flag }}</span> {{ p.name }}
+      </button>
+    }
+  </div>
+
+  <div class="lang-panel">
+    <h3>{{ active().flag }} {{ active().name }}</h3>
+    <p>{{ active().body }}</p>
+    <ul class="tags">
+      @for (t of active().tags; track t) { <li>{{ t }}</li> }
+    </ul>
+  </div>
+</section>

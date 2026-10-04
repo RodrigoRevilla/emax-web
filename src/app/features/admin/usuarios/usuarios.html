@@ -1,0 +1,116 @@
+<div class="us">
+  <header class="us-head">
+    <h1 class="us-titulo">Usuarios</h1>
+    <p class="us-sub">Gestiona el personal con acceso al panel y las claves de material para alumnos.</p>
+  </header>
+
+  <section class="mi-cuenta">
+    <button class="btn-add" (click)="formPassword.set(!formPassword())">
+      {{ formPassword() ? 'Cancelar' : '🔒 Cambiar mi contraseña' }}
+    </button>
+    @if (formPassword()) {
+      <div class="form form-pass">
+        <div class="form-grid">
+          <input type="password" [ngModel]="pActual()" (ngModelChange)="pActual.set($event)" placeholder="Contraseña actual">
+          <input type="password" [ngModel]="pNueva()" (ngModelChange)="pNueva.set($event)" placeholder="Nueva (mín. 8)">
+          <input type="password" [ngModel]="pConfirm()" (ngModelChange)="pConfirm.set($event)" placeholder="Confirmar nueva">
+        </div>
+        <button class="btn-guardar" (click)="cambiarMiPassword()">Actualizar contraseña</button>
+      </div>
+    }
+  </section>
+
+  <div class="us-tabs">
+    <button [class.on]="tab() === 'usuarios'" (click)="setTab('usuarios')">Personal ({{ usuarios.length }})</button>
+    <button [class.on]="tab() === 'claves'" (click)="setTab('claves')">Claves de alumnos ({{ claves.length }})</button>
+  </div>
+
+  @if (tab() === 'usuarios') {
+    <section class="panel">
+      <div class="panel-top">
+        <h2>Personal con acceso</h2>
+        <button class="btn-add" (click)="formUsuario.set(!formUsuario())">
+          {{ formUsuario() ? 'Cancelar' : '+ Nuevo usuario' }}
+        </button>
+      </div>
+
+      @if (formUsuario()) {
+        <div class="form">
+          <div class="form-grid">
+            <input type="text" [ngModel]="uNombre()" (ngModelChange)="uNombre.set($event)" placeholder="Nombre completo">
+            <input type="email" [ngModel]="uEmail()" (ngModelChange)="uEmail.set($event)" placeholder="Correo">
+            <input type="text" [ngModel]="uPass()" (ngModelChange)="uPass.set($event)" placeholder="Contraseña">
+            <select [ngModel]="uRol()" (ngModelChange)="uRol.set($event)">
+              <option value="maestro">Maestro</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+          <button class="btn-guardar" (click)="guardarUsuario()">Crear usuario</button>
+        </div>
+      }
+
+      <table class="tabla">
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          @for (u of usuarios; track u.id) {
+            <tr [class.inactivo]="!u.activo">
+              <td class="td-nombre">{{ u.nombre }}</td>
+              <td>{{ u.email }}</td>
+              <td><span class="rol rol-{{ u.rol }}">{{ u.rol }}</span></td>
+              <td>
+                <button class="toggle" [class.on]="u.activo" (click)="toggleU(u)">
+                  {{ u.activo ? 'Activo' : 'Inactivo' }}
+                </button>
+              </td>
+              <td class="td-acc">
+                <button class="acc-ed" (click)="resetearPassword(u)">Resetear</button>
+                <button class="acc-del" (click)="borrarU(u)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  }
+
+  @if (tab() === 'claves') {
+    <section class="panel">
+      <div class="panel-top">
+        <h2>Claves de acceso a material</h2>
+        <button class="btn-add" (click)="formClave.set(!formClave())">
+          {{ formClave() ? 'Cancelar' : '+ Nueva clave' }}
+        </button>
+      </div>
+      <p class="claves-info">Cada clave permite a los alumnos desbloquear el material marcado como "con clave" de un nivel.</p>
+
+      @if (formClave()) {
+        <div class="form">
+          <div class="form-grid">
+            <input type="text" [ngModel]="cClave()" (ngModelChange)="cClave.set($event)" placeholder="Clave (ej. KIDZ-2026)">
+            <input type="text" [ngModel]="cDesc()" (ngModelChange)="cDesc.set($event)" placeholder="Descripción">
+            <select [ngModel]="cNivel()" (ngModelChange)="cNivel.set($event)">
+              @for (n of niveles; track n.id) { <option [value]="n.id">{{ n.nombre }}</option> }
+            </select>
+          </div>
+          <button class="btn-guardar" (click)="guardarClave()">Generar clave</button>
+        </div>
+      }
+
+      <div class="claves-grid">
+        @for (c of claves; track c.id) {
+          <article class="clave" [class.inactiva]="!c.activa">
+            <div class="clave-top">
+              <span class="clave-cod">🔑 {{ c.clave }}</span>
+              <button class="toggle" [class.on]="c.activa" (click)="toggleC(c.id)">
+                {{ c.activa ? 'Activa' : 'Inactiva' }}
+              </button>
+            </div>
+            <p class="clave-desc">{{ c.descripcion || 'Sin descripción' }}</p>
+            <p class="clave-nivel">{{ nombreNivel(c.nivelId) }}</p>
+            <button class="clave-del" (click)="borrarC(c.id)">Eliminar</button>
+          </article>
+        }
+      </div>
+    </section>
+  }
+</div>

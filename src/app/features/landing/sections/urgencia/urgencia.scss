@@ -1,0 +1,7 @@
+.urgencia { padding: clamp(48px, 8vw, 96px) var(--pad-x); text-align: center;
+  background: linear-gradient(135deg, var(--red) 0%, #a8040f 100%); color: #fff; }
+.urg-kicker { font-family: var(--font-mono); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; opacity: .85; }
+.urg-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(26px, 4.5vw, 44px); margin: 14px auto 16px; max-width: 20ch; }
+.urg-body { max-width: 56ch; margin: 0 auto; opacity: .92; line-height: 1.6; }
+.urg-cta { display: inline-block; margin-top: 30px; padding: 15px 38px; border-radius: 999px; background: #fff; color: var(--red); font-weight: 700; transition: transform 160ms; }
+.urg-cta:hover { transform: translateY(-2px); }

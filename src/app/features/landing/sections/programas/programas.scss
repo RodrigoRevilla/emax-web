@@ -1,0 +1,11 @@
+.programas { background: var(--bone-warm); }
+.lang-tabs { display: flex; gap: 10px; margin: 34px 0 24px; flex-wrap: wrap; }
+.lang-tab { padding: 11px 22px; border-radius: 999px; border: 1px solid rgba(11,11,18,.14);
+  font-weight: 600; transition: all 180ms; }
+.lang-tab.active { background: var(--navy); color: var(--bone); border-color: var(--navy); }
+.flag { margin-right: 4px; }
+.lang-panel { padding: 34px; border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-md); max-width: 720px; }
+.lang-panel h3 { font-family: var(--font-display); font-size: 28px; margin-bottom: 12px; }
+.lang-panel p { line-height: 1.65; color: rgba(11,11,18,.72); }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; list-style: none;
+  li { padding: 6px 14px; border-radius: 999px; background: var(--bone); font-size: 13px; font-weight: 600; color: var(--navy); } }

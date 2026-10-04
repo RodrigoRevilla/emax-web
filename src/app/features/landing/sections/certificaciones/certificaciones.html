@@ -1,0 +1,15 @@
+<section id="certificaciones" appReveal class="section certif">
+  <p class="eyebrow">{{ data().eyebrow }}</p>
+  <h2 class="h2">{{ data().title }}</h2>
+  <p class="lede">{{ data().lede }}</p>
+  <div class="cert-grid">
+    @for (c of data().items; track c.name) {
+      <article class="cert-card">
+        <span class="cert-badge">{{ c.badge }}</span>
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.body }}</p>
+        <span class="cert-scope">{{ c.scope }}</span>
+      </article>
+    }
+  </div>
+</section>

@@ -1,0 +1,42 @@
+.mat-head { margin-bottom: 22px; }
+.mat-titulo { font-family: var(--font-display); font-size: 28px; }
+.mat-sub { color: rgba(11,11,18,.6); margin-top: 4px; }
+
+.mat-grid { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; }
+
+.arbol { background: #fff; border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow-sm); }
+.arbol-curso { margin-bottom: 16px; }
+.ac-tit { display: block; font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+.ac-nivel { display: block; width: 100%; text-align: left; padding: 9px 12px; border-radius: 8px;
+  font-size: 13px; color: rgba(11,11,18,.7); transition: background 140ms; }
+.ac-nivel:hover { background: var(--bone); }
+.ac-nivel.on { background: var(--navy); color: var(--bone); font-weight: 600; }
+
+.lista { background: #fff; border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+.lista-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.lista-top h2 { font-size: 16px; color: rgba(11,11,18,.7); }
+.btn-add { padding: 9px 18px; border-radius: 999px; background: var(--gold); color: var(--ink); font-weight: 600; font-size: 13px; }
+
+.form-mat { background: var(--bone-warm); border-radius: var(--radius); padding: 18px; margin-bottom: 18px; }
+.form-mat input, .form-mat select { width: 100%; padding: 11px 13px; border: 1px solid rgba(11,11,18,.16);
+  border-radius: 9px; font: inherit; font-weight: 400; margin-bottom: 10px; }
+.form-row { display: flex; gap: 10px; }
+.form-nota { font-size: 12px; color: rgba(11,11,18,.5); margin-bottom: 10px; }
+.btn-guardar { width: 100%; padding: 12px; border-radius: 999px; background: var(--navy); color: var(--bone); font-weight: 600; }
+
+.vacio { color: rgba(11,11,18,.5); padding: 20px 0; }
+.materiales { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.material { display: flex; align-items: center; gap: 14px; padding: 14px;
+  border: 1px solid rgba(11,11,18,.1); border-radius: 12px; }
+.m-ico { font-size: 24px; }
+.m-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.m-tit { font-weight: 600; font-size: 15px; }
+.m-meta { font-size: 12px; color: rgba(11,11,18,.55); display: flex; align-items: center; gap: 8px; }
+.m-acceso { font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--bone); }
+.m-acceso.clave { background: rgba(201,162,75,.18); color: var(--gold-dark); }
+.m-acciones { display: flex; gap: 8px; }
+.m-ver, .m-del { padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+.m-ver { background: var(--bone); }
+.m-del { background: rgba(227,6,19,.1); color: var(--red); }
+
+@media (max-width: 760px) { .mat-grid { grid-template-columns: 1fr; } }
